@@ -1,7 +1,8 @@
-const db = require("../../models/connection");
+// const db = require("../../models/connection");
 const bcrypt = require('bcrypt');
 const { response } = require("../../app");
 const ObjectId = require('mongodb').ObjectId
+const db = require('../../models/connection')
 
 module.exports = {
   //sign up
@@ -19,7 +20,7 @@ module.exports = {
         }
         else {
           let hashedPassword = await bcrypt.hash(userData.password, 10);
-          const data = new db.user({
+          const data = new ({
 
             username: userData.username,
             Password: hashedPassword,
@@ -66,11 +67,13 @@ module.exports = {
             })
           }
           else {
+            console.log(users);
             resolve({ blockedStatus: true })
           }
 
 
         } else {
+          console.log(users);
           resolve({ loggedinstatus: false })
         }
       } catch (err) {

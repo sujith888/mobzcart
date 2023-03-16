@@ -2,15 +2,7 @@ var mongoose = require("mongoose");
 
 
 
-   const connectDB=(url)=>{
-      return mongoose.connect(url, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-      })
-        .then(() => console.log("Database connected!"))
-        .catch(err => console.log(err)); 
-   }
-
+ 
 
 
 const userschema = new mongoose.Schema({
@@ -236,6 +228,7 @@ const couponSchema = new mongoose.Schema({
 })
 
 module.exports = {
+
   user: mongoose.model('user', userschema),
   category: mongoose.model('Category', categorySchema),
   product: mongoose.model('product', productSchema),
@@ -248,7 +241,7 @@ module.exports = {
   coupon: mongoose.model('Coupon', couponSchema),
 
 }
-module.exports=connectDB
+// module.exports=connectDB
 
 
 

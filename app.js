@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const expressLayouts = require("express-ejs-layouts");
 const session= require('express-session')
-const connectDB = require('./models/connection')
+const connectDB = require('./models/mongoConnection')
 require('dotenv').config()
 
 console.log(process.env)

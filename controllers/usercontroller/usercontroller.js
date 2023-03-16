@@ -44,7 +44,7 @@ let banner= await userhelpers.findBanner()
 
 
   getUserLogin: (req, res) => {
-
+console.log(">>>>>>>>>>>>>>>");
     if (req.session.loggedIn) {
       res.redirect('/')
     } else {
@@ -53,6 +53,7 @@ let banner= await userhelpers.findBanner()
   },
   // post user login
   postUserLogin: (req, res) => {
+    console.log("post");
     userhelpers.doLogin(req.body).then((response) => {
       req.session.loggedIn = true
       req.session.user = response
