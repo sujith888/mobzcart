@@ -1,0 +1,179 @@
+
+  <section class="content-main">
+    <div class="content-header">
+      <div>
+        <h2 class="content-title card-title">Dashboard</h2>
+      </div>
+      <!-- <div>
+        <a href="#" class="btn btn-primary"
+          ><i class="text-muted material-icons md-post_add"></i>Create report</a
+        >
+      </div> -->
+    </div>
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="card card-body mb-4">
+          <article class="icontext">
+            <span class="icon icon-sm rounded-circle bg-primary-light"
+              ><i class="text-primary material-icons md-monetization_on"></i
+            ></span>
+            <div class="text">
+              <h6 class="mb-1 card-title">Revenue</h6>
+              <span>₹<%=locals.total%></span>
+              <span class="text-sm"> Shipping fees are not included </span>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="card card-body mb-4"style="height: 8rem;">
+          <article class="icontext">
+            <span class="icon icon-sm rounded-circle bg-success-light"
+              ><i class="text-success material-icons md-local_shipping"></i
+            ></span>
+            <div class="text">
+              <h6 class="mb-1 card-title">Total Orders</h6>
+              <span><%=locals.length%></span>
+              <span class="text-sm"> Excluding orders in transit </span>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="col-lg-3" >
+        <div class="card card-body mb-1"style="height: 8rem;">
+          <article class="icontext">
+            <span class="icon icon-sm rounded-circle bg-warning-light"
+              ><i class="text-warning material-icons md-qr_code"></i
+            ></span>
+            <div class="text">
+              <h6 class="mb-1 card-title">Total Products</h6>
+              <span><%=locals.totalProducts%></span>
+              <span class="text-sm"> Categories </span>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="card card-body mb-1"style="height: 8rem;">
+          <article class="icontext">
+            <span class="icon icon-sm rounded-circle bg-info-light"
+              ><i class="text-info material-icons md-shopping_basket"></i
+            ></span>
+            <div class="text">
+              <h6 class="mb-1 card-title">Total Users</h6>
+              <span><%=locals.totalUserCount%></span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-8 col-lg-12">
+        <div class="card mb-1">
+          <article class="card-body">
+            <h5 class="card-title">Sale Statistics</h5>
+            <canvas id="myChart1" height="120px"></canvas>
+          </article>
+        </div>
+       
+      </div>
+      <div class="col-xl-4 col-lg-12">
+        <div class="card mb-4">
+          <article class="card-body">
+            <h5 class="card-title">Payment Method</h5>
+            <canvas id="myChart2" height="217"></canvas>
+          </article>
+        </div>
+        
+      </div>
+
+      <div>
+        <p style="visibility: hidden;" id="days"><%= JSON.stringify(locals.ordersPerDay) %></p>
+        <p style="visibility: hidden;" id="payment"><%=JSON.stringify(locals.paymentCount) %></p>
+
+      </div>
+      
+    </div>
+    
+   
+  </section>
+  <!-- content-main end// -->
+  <footer class="main-footer font-xs">
+
+      
+    
+        <script>
+          document.write(new Date());
+          
+         // Sample data
+         let xValues = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+         let yValues = [0,5,10,15,20,25,30];
+         let buyed = [];
+         let daysData = JSON.parse(document.getElementById('days').innerHTML);
+  console.log(daysData);
+         for(let i=0;i<xValues.length;i++){
+              if(xValues[i]in daysData){
+                buyed.push(daysData[xValues[i]])
+              }
+              else{
+                buyed.push(0)
+              }
+         }
+         
+         new Chart("myChart1", {
+          type: "bar",
+          data: {
+            labels: xValues,
+            datasets: [{
+              fill: false,
+              lineTension: 0,
+              backgroundColor:"#DFEEFC",
+              borderColor: "#000",
+              data: buyed,
+              label:'Sales'
+            }]
+           },
+          options: {
+            legend: {display: false},
+            scales: {
+              yAxes: [{ticks: {min: 6, max:16}}],
+            }
+          }
+        });
+        </script>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  
+<script>
+  var xValue = ["Online","COD"];
+  var yValue = [];
+         let paymentData = JSON.parse(document.getElementById('payment').innerHTML);
+       yValue.push(paymentData[0])
+       yValue.push(paymentData[1])
+         
+  var barColors = [
+    "#b91d47",
+    "#00aba9",
+    "#2b5797",
+    "#e8c3b9",
+    "#1e7145"
+  ];
+  
+  new Chart("myChart2", {
+    type: "pie",
+    data: {
+      labels: xValue,
+      datasets: [{
+        backgroundColor: barColors,
+        data: yValue
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: "Chart Of Total Payment Mode"
+      }
+    }
+  });
+  </script>
+       

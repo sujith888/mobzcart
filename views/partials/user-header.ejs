@@ -1,0 +1,277 @@
+<header class="header-area header-style-3 header-height-2">
+ 
+  <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+    <div class="container">
+      <div class="header-wrap">
+        <div class="logo logo-width-1">
+          <h4>
+            <span style="color: darkgreen; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+
+;">A 2 Z</span><br> ECommerce
+
+          </h4>
+        </div>
+        <div class="header-right">
+          <div class="search-style-2">
+            <form action="/search" method="post"  >
+             
+              <input type="text"  name="search"  id="keyword" placeholder="Search for items..." />
+
+              <button type="submit"     style="display: none;">Submit</button>
+
+            </form>
+          </div>
+          <div  margin-right: 8 rem;">
+            <%if(locals.userSession){%>
+             
+              <i class="fi-rs-user" style="color:black;"></i><a  style="color:black;" href="/profile"><%=userSession.userName%></a>
+               <%}else {%>
+              <i class="fi-rs-user"></i><a href="/login">LogIn</a>
+              <%}%>
+
+
+          </div>
+        
+          
+          <div class="header-action-right">
+            <div class="header-action-2">
+              <div class="header-action-icon-2">
+                <a href="/wishlist">
+                  <img
+                    class="svgInject"
+                    alt="Evara"
+                    src="assets/imgs/theme/icons/icon-heart.svg"
+                  />
+                  <%if( locals.userSession){%>
+                    <span class="pro-count blue" style="background-color: black;" id="wish-count"><%= locals.wishCount %></span>
+                    <%}%>
+                </a>
+              </div>
+              <div class="header-action-icon-2">
+                <a class="mini-cart-icon" href="/cart">
+                  <img
+                    alt="Evara"
+                    src="assets/imgs/theme/icons/icon-cart.svg"
+                  />
+                   <%if( locals.userSession){%>
+                  <span class="pro-count blue" style="background-color: black;" id="cart-count"><%= locals.count %></span>
+                  <%}%>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="header-bottom header-bottom-bg-color sticky-bar">
+    <div class="container">
+      <div class="header-wrap header-space-between position-relative main-nav">
+        <div class="logo logo-width-1 d-block d-lg-none">
+          <h4>
+            <span style="color:#050301; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+
+;">A 2 Z</span><br> ECommerce
+
+          </h4>
+        </div>
+        <div class="header-nav d-none d-lg-flex">
+          
+          <div
+            class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block"
+          >
+            <nav>
+              <ul>
+                <li>
+                  <!-- active aakanam -->
+                  <a class="" href="/" style="color: black;">Home <i class=""></i></a>
+                </li>
+                <li>
+                  <a href="/shop"   style="color: black">Shop <i class=""></i></a>
+                </li>
+                <li class="position-static">
+                  <a href="/order"   style="color: black;">Orders <i class=""></i></a>
+                </li>
+                <!-- <li>
+                  <a href="blog-category-grid.html"  style="color: black;">About <i class=""></i></a>
+                </li> -->
+
+                <!-- <li>
+                  <a href="page-contact.html"  style="color: black;">Contact </a>
+                </li> -->
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div class="hotline d-none d-lg-block">
+        
+        </div>
+        <p class="mobile-promotion">
+        
+        </p>
+
+
+
+        <div class="header-action-right d-block d-lg-none">
+          <div class="header-action-2">
+            <div class="header-action-icon-2">
+              <a href="/wishlist">
+                <img alt="Evara" src="assets/imgs/theme/icons/icon-heart.svg" />
+                <% if(locals.userSession){%>
+                  <span class="pro-count blue" id="wish-count" style="background-color:  black;"><%= locals.wishCount %></span>
+                  <%}%>
+              </a>
+            </div>
+            <div class="header-action-icon-2">
+              <a class="mini-cart-icon" href="/cart">
+                <img alt="Evara" src="assets/imgs/theme/icons/icon-cart.svg" />
+                <% if(locals.userSession){%>
+                    
+                  <span class="pro-count blue" id="cart-count" style="background-color:  black;"><%= locals.count %></span>
+                  <%}%>
+              </a>
+              
+            </div>
+            <div class="header-action-icon-2 d-block d-lg-none">
+              <div class="burger-icon burger-icon-white">
+                <span class="burger-icon-top"></span>
+                <span class="burger-icon-mid"></span>
+                <span class="burger-icon-bottom"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="mobile-header-active mobile-header-wrapper-style">
+  <div class="mobile-header-wrapper-inner">
+    <div class="mobile-header-top">
+      <div class="mobile-header-logo">
+        <h4 >A 2 Z <span style="color:#050301;">Ecommerce</span></h4>
+        <a href="/"
+
+        ></a>
+      </div>
+      <div
+        class="mobile-menu-close close-style-wrap close-style-position-inherit"
+      >
+        <button class="close-style search-close">
+          <i class="icon-top"></i>
+          <i class="icon-bottom"></i>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-header-content-area">
+      <div class="mobile-search search-style-3 mobile-header-border">
+        <form action="/search" method="post"  >
+             
+          <input type="text"  name="search"  id="keyword" placeholder="Search for items..." />
+
+          <button type="submit" style="display: none;">Submit</button>
+
+        </form>
+      </div>
+      <div class="mobile-menu-wrap mobile-header-border">
+        
+        <!-- mobile menu start -->
+        <nav>
+          <ul class="mobile-menu">
+            <li class="menu-item-has-children">
+              <span class="menu-expand"></span><a href="/" style="color: black;">Home</a>
+            </li>
+            <li class="menu-item-has-children">
+              <span class="menu-expand"></span><a href="/shop" style="color: black;">Shop</a>
+            </li>
+            <li class="menu-item-has-children">
+              <span class="menu-expand"></span><a href="/order" style="color: black;">Orders</a>
+            </li>
+         <li>
+            <div class="mobile-header-info-wrap mobile-header-border">
+              <div class="single-mobile-header-info mt-30">
+                <%
+                if(!locals.userSession){%>
+                 
+                    <a href="/login" style="color: black">Log In</a>
+      
+                 <%}
+                 else{%>
+                  <i class="fi-rs-user" style="color:black;"></i><a  style="color:black;" href="/profile"><%=userSession.userName%></a>
+                   <%}
+                 %>
+              </div>
+             
+            </div>
+          </li>
+          </ul>
+        </nav>
+        <!-- mobile menu end -->
+      </div>
+      
+      <div class="mobile-social-icon">
+        <h5 class="mb-15 text-grey-4">Follow Us</h5>
+        <a href="#"
+          ><img src="assets/imgs/theme/icons/icon-facebook.svg" alt=""
+        /></a>
+        <a href="#"
+          ><img src="assets/imgs/theme/icons/icon-twitter.svg" alt=""
+        /></a>
+        <a href="#"
+          ><img src="assets/imgs/theme/icons/icon-instagram.svg" alt=""
+        /></a>
+        <a href="#"
+          ><img src="assets/imgs/theme/icons/icon-pinterest.svg" alt=""
+        /></a>
+        <a href="#"
+          ><img src="assets/imgs/theme/icons/icon-youtube.svg" alt=""
+        /></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Vendor JS-->
+  <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+  <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
+  <script src="assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+  <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/plugins/slick.js"></script>
+  <script src="assets/js/plugins/jquery.syotimer.min.js"></script>
+  <script src="assets/js/plugins/wow.js"></script>
+  <script src="assets/js/plugins/jquery-ui.js"></script>
+  <script src="assets/js/plugins/perfect-scrollbar.js"></script>
+  <script src="assets/js/plugins/magnific-popup.js"></script>
+  <script src="assets/js/plugins/select2.min.js"></script>
+  <script src="assets/js/plugins/waypoints.js"></script>
+  <script src="assets/js/plugins/counterup.js"></script>
+  <script src="assets/js/plugins/jquery.countdown.min.js"></script>
+  <script src="assets/js/plugins/images-loaded.js"></script>
+  <script src="assets/js/plugins/isotope.js"></script>
+  <script src="assets/js/plugins/scrollup.js"></script>
+  <script src="assets/js/plugins/jquery.vticker-min.js"></script>
+  <script src="assets/js/plugins/jquery.theia.sticky.js"></script>
+  <script src="assets/js/plugins/jquery.elevatezoom.js"></script>
+  <!-- Template  JS -->
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/shop.js"></script>
+<!-- <script>
+
+
+
+
+function search() {
+  const keyword = document.getElementById('keyword').value;
+  $.ajax({
+  url:`/search?keyword=${keyword}`, 
+ method:'GET',
+ success:(response)=>{
+console.log(response);
+ }
+
+  })
+    
+}
+</script> -->

@@ -1,0 +1,199 @@
+
+    <main class="main-wrap container">
+      
+        <section class="content-main">
+            <div class="content-header ">
+                <h2 class="content-title" style="margin-top: 20px;margin-bottom: 20px;">Hi <%=data.username%> </h2>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row gx-5">
+                        <aside class="col-lg-3 border-end">
+                            <nav class="nav nav-pills flex-lg-column mb-4">
+                                <a class="nav-link" aria-current="page" href="#">General</a>
+                                <a class="nav-link" href="/reset_password">Reset Password</a>
+                                <a class="nav-link" href="/view_address">Address</a>
+                                <a class="nav-link" href="/order">Orders</a>
+                                <a class="nav-link text-danger" href="/logout">Logout</a>
+                            </nav>
+                        </aside>
+                        <div class="col-lg-9">
+                            <section class="content-body p-xl-4">
+                                <form id="profile">
+
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <div class="row gx-3">
+                                                <div class="col-6 mb-3">
+                                                    <label class="form-label">User Name</label>
+                                                    <input class="form-control" name="fname" type="text" id="name"  
+                                                    required="" value="<%=data.username%>"  onkeyup="validateName()">
+                                                    <span id="name-error" class="validation-label"></span>
+                                                </div> <!-- col .// -->
+                                                <!-- <div class="col-6 mb-3">
+
+                                                <label class="form-label">Last Name</label>
+                                            
+                                                  <input class="form-control" name="lname" type="text" value="<%=data.username%>" >
+                                                </div> -->
+                                                <div class="col-lg-6  mb-3">
+                                                    <label class="form-label">Email</label>
+                                                    <input class="form-control" name="email" type="email" id="email" onkeyup="validateEmail()" required="  " value="<%=data.email%>">
+                                                   
+                                                    <span id="email-error" class="validation-label"></span>
+
+                                                </div> <!-- col .// -->
+                                                <div class="col-lg-6  mb-3">
+                                                    <label class="form-label">Phone</label>
+                                                    <input class="form-control" name="phone" type="number" id="phone" onkeyup="validatePhone()" required="  " value="<%=data.phonenumber%>">
+                                                    <span id="phone-error" class="validation-label"></span>
+                                                </div> <!-- col .// -->
+                                             
+                                               
+                                                
+                                            </div> <!-- row.// -->
+                                        </div> <!-- col.// -->
+                                      
+                                    </div> <!-- row.// -->
+                                    <br>
+
+                                    <button class="btn btn-primary" onclick="if(validate()==true){ changeProfile('<%=data._id%>')}">Save changes</button>
+
+                                </form>
+                                
+                                
+                            </section> <!-- content-body .// -->
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+                </div> <!-- card body end// -->
+            </div> <!-- card end// -->
+        </section> <!-- content-main end// -->
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                    document.write(new Date().getFullYear())
+                    </script> ©,A 2 Z Ecommerce .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+<!-- Mirrored from wp.alithemes.com/html/evara/evara-backend/page-settings-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:33:49 GMT -->
+</html>
+
+<script>
+  function changeProfile(profileId) {
+
+     console.log(profileId);
+    $('#profile').submit((e) =>{
+        e.preventDefault();
+        $.ajax({
+        url: '/update_profile?userId='+profileId,
+        method: "PUT",
+        data:$('#profile').serialize(),
+        success: (response) => {
+            location.reload();
+        },
+        });
+    })
+
+}
+</script>
+<script>
+    var nameError = document.getElementById("name-error");
+    var emailError = document.getElementById("email-error");
+    var phoneError = document.getElementById("phone-error");
+    function validateName() {
+    var name = document.getElementById("name").value;
+    var nameInput = document.getElementById("name");
+  
+    if (name.length == 0) {
+      nameError.innerHTML = "Name is required";
+      nameError.style.color = "red";
+      nameInput.style.border = "solid 2px red";
+      return false;
+    }
+    if (!name.match(/^[A-Z a-z]{3,}$/)) {
+      nameError.innerHTML = "Write valid name";
+      nameError.style.color = "red";
+      nameInput.style.border = "solid 2px red";
+  
+      return false;
+    }
+    nameError.innerHTML = "";
+    // nameError.innerHTML = "Valid Name";
+    nameError.style.color = "green";
+    nameInput.style.border = "solid 2px green";
+  
+    return true;
+  }
+  function validateEmail() {
+    var email = document.getElementById("email").value;
+    var emailInput = document.getElementById("email");
+  
+    if (email.length == 0) {
+      emailError.innerHTML = "Email is required";
+      emailError.style.color = "red";
+      emailInput.style.border = "solid 2px red";
+  
+      return false;
+    }
+    if (!email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+      emailError.innerHTML = "Email invalid";
+      emailError.style.color = "red";
+      emailInput.style.border = "solid 2px red";
+  
+      return false;
+    }
+    emailError.innerHTML = "";
+    emailError.style.color = "green";
+    emailInput.style.border = "solid 2px green";
+    return true;
+  }
+  function validatePhone(){
+    var phone = document.getElementById("phone").value;
+    var phoneInput = document.getElementById("phone");
+  
+    if (phone.length == 0) {
+      phoneError.innerHTML = "phone number is required";
+      phoneError.style.color = "red";
+      phoneInput.style.border = "solid 2px red";
+      return false;
+    }
+    if (!phone.match(/^\d{10}$/)) {
+      phoneError.innerHTML = "Enter valid number";
+      phoneError.style.color = "red";
+      phoneInput.style.border = "solid 2px red";
+  
+  
+  return false;
+    }
+    phoneError.innerHTML = "";
+    phoneError.style.color = "green";
+    phoneInput.style.border = "solid 2px green";
+    return true;
+  }
+  function validate(){
+    if(!validateName() ||  !validateEmail() || !validatePhone())
+    {
+  Swal.fire({
+  icon: 'error',
+  title: 'Enter details correctly!!',
+  
+})
+      return false;
+    }
+    else
+    {
+      return true
+    }
+  }
+  </script>
+
+  

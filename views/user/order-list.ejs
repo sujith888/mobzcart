@@ -1,0 +1,326 @@
+<style>
+
+#return-form-btn {
+  display: inline-block;
+  padding: 10px;
+  background-color: #ccc;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#return-form {
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+  #return-form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  #return-form select {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+
+  #return-form input[type="text"],
+  #return-form input[type="date"],
+  #return-form input[type="submit"] {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+
+  #return-form input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+  }
+
+  #return-form input[type="submit"]:hover {
+    background-color: #0062cc;
+  }
+</style>
+
+<section class="h-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-10 col-xl-8">
+        <div class="card" style="border-radius: 10px;">
+          <div class="card-header px-4 py-5">
+
+
+            <h5 class="text-muted mb-0">Thanks for your Order, <span style="color: #a8729a;">
+                <%=orderDetails.name%>
+              </span>!</h5>
+            <p style="display:none" id="A2Z">
+              <%= JSON.stringify(locals.data) %>
+            </p>
+            <!-- onclick="invoiceCreator()" -->
+
+            <%if(orderDetails.OrderStatus=='Success' ){%>
+
+              <button class="btn btn-suucess mt-5" onclick="invoiceCreator()">Download invoice</button>
+              <%}%>
+          </div>
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <p class="lead fw-normal mb-0" style="color: #a8729a;">Order Details </p>
+              <p class="small text-muted mb-0">Order Id : <%=orderDetails._id%>
+              </p>
+              <p class="small text-muted mb-0">Ordered Date:<%=getDate(orderDetails.createdAt)%>
+              </p>
+            </div>
+            <div class="card shadow-0 border mb-4">
+              <% products?.forEach(function(response) { %>
+
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <img src="/uploads/<%=response.image[0] %>" class="img-fluid" alt="Phone">
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0">
+                        <%=response.productsName%>
+                      </p>
+                    </div>
+
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">
+                        <%=response.category%>
+                      </p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">
+                        <%=response.quantity%>
+                      </p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">
+                        <%=response.productsPrice%>
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+
+                </div>
+                <% }) %>
+
+            </div>
+            <div class="d-flex justify-content-between pt-2">
+              <p class="fw-bold mb-0">Address Details</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4"></span></p>
+            </div>
+
+
+
+
+            z
+            <div class="d-flex justify-content-between pt-2">
+              <p class="fw-bold mb-0">
+                <%= address[0].fname%>
+              </p>
+              <%if(orderDetails.OrderStatus=='success'){ %>
+                <p class="text-muted mb-0"><span class="fw-bold me-4"><span>Order Status</span>: <span
+                      style="color:green;">
+                      <%=orderDetails.OrderStatus%>
+                    </span> </p>
+                <%} else if(orderDetails.OrderStatus=='Delivered' ) {%>
+                  <p class="text-muted mb-0"><span class="fw-bold me-4"><span>Order Status</span>: <span
+                        style="color: orange;">
+                        <%=orderDetails.OrderStatus%>
+                      </span> </p>
+
+                  <%} else {%>
+
+                    <p class="text-muted mb-0"><span class="fw-bold me-4"><span>Order Status</span>: <span
+                          style="color:#a8729a;">
+                          <%=orderDetails.OrderStatus%>
+                        </span> </p>
+
+                    <%} %>
+
+
+
+                      <%if(orderDetails.OrderStatus=='success'){ %>
+                        <button class="btn btn-primary" style="background: #a8729a; height:3rem"
+                          onclick="cancelorder('<%=orderDetails._id%>')">Cancel</button>
+                        <%} %>
+                          <%if(orderDetails.OrderStatus=='Delivered'){ %>
+                            <button id="return-form-btn" style="width: 200px;background-color: #a8729a">Click Here to Return  Your product </button>
+                       
+                            <div id="return-form" style="display: none;">
+                              <form id="myForm">
+                                <label for="order-number">Order Number:</label>
+                                <input type="text" id="order-number" name="orderNumber">
+                                <label for="reason-for-return">Reason for Return:</label>
+                                <select id="reason-for-return" name="reasonForReturn">
+                                  <option value="">Select a reason</option>
+                                  <option value="Defective Product">Defective Product</option>
+                                  <option value="Wrong Product Delivered">Wrong Product Delivered</option>
+                                  <option value="Not Satisfied with the Product">Not Satisfied with the Product</option>
+                                  <option value="Received a Damaged Product">Received a Damaged Product</option>
+                                  <option value="Other">Other</option>
+                                </select>
+
+                                <label for="return-date">Return Date:</label>
+                                <input type="date" id="return-date" name="returnDate">
+                            <h5 style=" color: green;" id="returnConfrmMessage"></h5>
+                                <input type="submit" value="Submit">
+                              </form>
+                            </div>
+                            <%} %>
+
+
+            </div>
+            <div class="d-flex justify-content-between pt-2">
+              <p class="fw-bold mb-0">
+                <%= address[0].apartment%>
+              </p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4"></span></p>
+            </div>
+            <div class="d-flex justify-content-between pt-2">
+              <p class="fw-bold mb-0">
+                <%= address[0].street%>
+              </p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span>
+                <%=orderDetails.grandTotal%>
+              </p>
+            </div>
+            <div class="d-flex justify-content-between pt-2">
+              <p class="fw-bold mb-0">
+                <%= address[0].city%>
+              </p>
+
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Discount:</span>
+                <%=orderDetails.discountAmount%>
+              </p>
+
+            </div>
+            <div class="d-flex justify-content-between pt-2">
+              <p class="fw-bold mb-0">
+                <%= address[0].pincode%>
+              </p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery Charges</span>Free</p>
+            </div>
+
+
+
+
+
+
+
+
+
+          </div>
+          <div class="card-footer border-0 px-4 py-5"
+            style="background-color: #a8729a; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+            <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+              paid: <%=orderDetails.totalPrice%><span class="h2 mb-0 ms-2"></span></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row d-flex align-items-center">
+
+    <div class="col-md-10">
+
+
+    </div>
+  </div>
+</section>
+
+
+
+
+<script>
+
+  // return product so submiting an request for return 
+  document.getElementById("return-form-btn").addEventListener("click", function () {
+    document.getElementById('return-form-btn').style.display='none'
+    document.getElementById("return-form").style.display = "block";
+  })
+    $(document).ready(function() {
+  $('#myForm').submit(function(event) {
+    event.preventDefault();
+
+    var formData = $(this).serialize();
+
+    $.ajax({
+      type: 'POST', 
+      url: '/return_order',
+      data: formData,
+      success: function(response) {
+        console.log(response.status);
+        if(response.status===true){
+          document.getElementById('returnConfrmMessage').innerHTML=response.Message
+        }
+      },
+    });
+  });
+});
+
+
+
+  function cancelorder(orderid) {
+    console.log(orderid);
+
+    $.ajax({
+
+      url: '/cancel_order?orderid=' + orderid,
+      method: 'put',
+      success: (response) => {
+        if (response) {
+          location.reload()
+        }
+
+      }
+    })
+
+  }
+  // function returnOrder(orderid) {
+  //   console.log(orderid)
+  //   $.ajax({
+
+  //     url: '/return_order?orderid=' + orderid,
+  //     method: 'PUT',
+  //     success: (response) => {
+  //       if (response) {
+  //         location.reload()
+  //       }
+
+  //     }
+  //   })
+
+  // }
+
+  function invoiceCreator() {
+    //Import the library into your project
+    let data = JSON.parse(document.getElementById('A2Z').innerHTML);
+    console.log(data);
+
+    //Create your invoice! Easy!
+    easyinvoice.createInvoice(data, function (result) {
+      //The response will contain a base64 encoded PDF file
+      console.log("PDF base64 string: ", result.pdf);
+      easyinvoice.download("invoice.pdf");
+    });
+  }
+
+
+
+
+</script>

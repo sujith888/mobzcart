@@ -1,0 +1,146 @@
+<div class="col-12 grid-margin">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title pb-5">Add new coupon</h4>
+      <form class="form-sample" method="POST" action="/admin/add_coupon" >
+        <!-- <p class="card-description">
+                      Personal info
+                    </p> -->
+        <div class="alert alert-danger" id="errorDisplay" role="alert" hidden></div>
+
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Validity</label>
+            <div class="col-sm-9">
+              <input type="date" name="validity" class="form-control" required="" id="validity" cols="45" rows="5"></input>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Min Purchase</label>
+            <div class="col-sm-9">
+              <input id="minAmount" name="minAmount" required="" type="text" class="form-control" onkeyup="validateMinAmount()" />
+              <span id="minAmountError" class="text-danger"></span> <!-- error message span -->
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 discPer ">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Discount (%)</label>
+            <div class="col-sm-9">
+              <input id="discountPercentage" name="discount" required="" type="number" class="form-control" onkeyup="validateDiscountPercentage()" />
+              <span id="discountPercentageError" class="text-danger"></span> <!-- error message span -->
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6" id="maxdiscountfield">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Max Discount(Rs)</label>
+            <div class="col-sm-9">
+              <input id="maxDiscountValue" name="maxdiscount"  required="" type="text" class="form-control" onkeyup="validateMaxDiscount()" />
+              <span id="maxDiscountError" class="text-danger"></span> <!-- error message span -->
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" >Description(T&amp;C)</label>
+            <div class="col-sm-9">
+              <textarea name="description" class="form-control" required="" id="description" cols="45" rows="5"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-outline-info col-1" onclick="return validateCoupon()">submit</button>
+
+      </div>
+    </div>
+  </form>
+</div>
+</div>
+</div>
+<script>
+
+function validateMinAmount() {
+  var minAmount = document.getElementById("minAmount").value;
+  var minAmountError = document.getElementById("minAmountError");
+
+  if (minAmount <= 0) {
+    minAmountError.textContent = "Minimum purchase amount must be greater than zero";
+  } else {
+    minAmountError.textContent = "";
+  }
+}
+
+function validateDiscountPercentage() {
+  var discountPercentage = document.getElementById("discountPercentage").value;
+  var discountPercentageError = document.getElementById("discountPercentageError");
+
+  if (discountPercentage <= 0 || discountPercentage > 100) {
+    discountPercentageError.textContent = "Discount percentage must be between 1 and 100";
+  } else {
+    discountPercentageError.textContent = "";
+  }
+}
+
+function validateMaxDiscount() {
+  var maxDiscountValue = document.getElementById("maxDiscountValue").value;
+  var maxDiscountError = document.getElementById("maxDiscountError");
+
+  if (maxDiscountValue <= 0) {
+    maxDiscountError.textContent = "Maximum discount must be greater than zero";
+  } else {
+    maxDiscountError.textContent = "";
+  }
+}
+
+function validateCoupon() {
+  var validity = document.getElementById("validity").value;
+  var minAmount = document.getElementById("minAmount").value;
+  var discountPercentage = document.getElementById("discountPercentage").value;
+  var maxDiscountValue = document.getElementById("maxDiscountValue").value;
+  var description = document.getElementById("description").value;
+  var errorDisplay = document.getElementById("errorDisplay");
+
+  if (validity == "" || minAmount == "" || discountPercentage == "" || maxDiscountValue == "" || description == "") {
+    errorDisplay.textContent = "Please fill all fields";
+    errorDisplay.hidden = false;
+    return false;
+  }
+
+  var today = new Date();
+  var inputDate = new Date(validity);
+  if (inputDate < today) {
+    errorDisplay.textContent = "Validity date must be in the future";
+    errorDisplay.hidden = false;
+    return false;
+  }
+
+  if (minAmount <= 0) {
+    errorDisplay.textContent = "Minimum purchase amount must be greater than zero";
+    errorDisplay.hidden = false;
+    return false;
+  }
+
+  if (discountPercentage <= 0 || discountPercentage > 100) {
+    errorDisplay.textContent = "Discount percentage must be between 1 and 100";
+    errorDisplay.hidden = false;
+    return false;
+  }
+
+  if (maxDiscountValue <= 0) {
+    errorDisplay.textContent = "Maximum discount must be greater than zero";
+    errorDisplay.hidden = false;
+    return false;
+  }
+
+  errorDisplay.hidden = true;
+  return true;
+}
+
+</script>
