@@ -12,6 +12,8 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
 
       try {
+        console.log('hi');
+        console.log(userData);
         email = userData.email;
         existingUser = await db.user.findOne({ email })
         if (existingUser) {
@@ -19,14 +21,18 @@ module.exports = {
 
         }
         else {
+        console.log('enter');
+
           let hashedPassword = await bcrypt.hash(userData.password, 10);
-          const data = new ({
+          const data = new db.user ({
 
             username: userData.username,
             Password: hashedPassword,
             email: userData.email,
             phonenumber: userData.phonenumber,
           })
+        console.log(data);
+
 
           await data.save(data).then((data) => {
             resolve({ data, status: true })

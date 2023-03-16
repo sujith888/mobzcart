@@ -44,7 +44,6 @@ let banner= await userhelpers.findBanner()
 
 
   getUserLogin: (req, res) => {
-console.log(">>>>>>>>>>>>>>>");
     if (req.session.loggedIn) {
       res.redirect('/')
     } else {
