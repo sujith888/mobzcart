@@ -23,7 +23,7 @@ module.exports = {
     postsignin: (data) => {
         return new Promise(async (resolve, reject) => {
 
-
+ console.log(data);
             let hashedPassword = await bcrypt.hash(data.password, 10)
 
             const admindata = db.admin({
@@ -34,6 +34,8 @@ module.exports = {
 
             })
             await admindata.save().then((response) => {
+              console.log(response);
+            resolve(response)
             })
         })
     },
@@ -45,18 +47,20 @@ module.exports = {
             try {
 
                 let admin = await db.admin.findOne({ email: data.email })
+                console.log(admin);
                 if (admin) {
                     if (admin.blocked == false) {
 
                     await bcrypt.compare(data.password, admin.password).then((status) => {
                         if (status) {
-                            Name = admin.name
-                            id = admin._id
-                            role = admin.role
+                            let Name = admin.name
+                            let id = admin._id
+                            let role = admin.role
                             // response.status
                             resolve({ loggedinstatus: true, Name, id, role })
 
                         } else {
+                          console.log('else');
                             resolve({ loggedinstatus: false })
                         }
                     })
@@ -66,7 +70,8 @@ module.exports = {
                     resolve({ loggedinstatus: false,blockedstatus:true })
                 }
             }else{
-  resolve({loggedinstatus: false})
+              console.log('no admin');
+             resolve({loggedinstatus: false})
             }
          } catch (err) {
             }
@@ -156,7 +161,7 @@ module.exports = {
         },
         {
           $match: {
-            "orders.paymentmode": "COD"
+            "orders.paymentmode": "Cod"
           }
         },
       ])

@@ -7,7 +7,7 @@ let users= require("../models/connection")
         if(req.session.adminloggedIn){
           next()
         }else{
-          res.render('admin/login',{layout:'adminlayout'})
+          res.render('admin/login',{layout:'adminLayout'})
         }
        
       }),
@@ -20,10 +20,10 @@ let users= require("../models/connection")
        
       }),
       userBlock:(async(req,res,next)=>{
-        let userId =req.session.user.id
-    let   user=  await users.user.findOne({_id:userId})
+        let userId =req?.session?.user?.id
+    let   user=  await users?.user.findOne({_id:userId})
     console.log(user);
-        if(!user.blocked){
+        if(!user?.blocked){
     console.log('hi');
           next()
           
@@ -37,7 +37,7 @@ let users= require("../models/connection")
         if(req.session.loggedIn){
           next()
         }else{
-          res.render('user/user')
+          res.redirect('/')
         }
        
       }),

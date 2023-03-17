@@ -19,7 +19,7 @@ module.exports = {
     admins = req.session.admin
     adminProductHelpers.getAddProduct().then((category) => {
       let response = category;
-      let products = response[0].subcategories;
+      let products = response[0]?.subcategories;
       res.render("admin/add-product", { layout: "adminLayout", response, admins, products });
     })
 
@@ -236,7 +236,7 @@ module.exports = {
 
   adminOrderDetails:async (req, res) => {
    
-
+    let requestForReturn=await  adminOrderHelper.requestForReturn(req.query.orderid)
     adminOrderHelper.orderDetails(req.query.order).then((order) => {
       const getDate = (date) => {
         let orderDate = new Date(date);
@@ -248,9 +248,10 @@ module.exports = {
       };
       
       admins = req.session.admin
-      let products = order.orders[0].productDetails
-      let total = order.orders
-      res.render('admin/order-details', { layout: 'adminLayout', order, products, total, getDate, admins })
+      let products = order?.orders[0]?.productDetails
+      let total = order?.orders
+        console.log(total);
+      res.render('admin/admin-userViewOrderDetails', { layout: 'adminLayout', order, products, total, getDate, admins ,requestForReturn})
     })
 
   },

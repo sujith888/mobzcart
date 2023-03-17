@@ -34,7 +34,7 @@ module.exports = {
     let pageNum = req.query.page
     let perPage = 6
 
-    documentCount = await userproductHelpers.productCount()
+   let  documentCount = await userproductHelpers.productCount()
 
     count = await cartHelper.getCartCount(req.session.user.id)
     wishCount = await userproductHelpers.getWishCount(req.session.user.id)
@@ -92,7 +92,7 @@ module.exports = {
   listCart: async (req, res) => {
     userSession = req.session.user
     count = await cartHelper.getCartCount(req.session.user.id)
-    wishCount = await userproductHelpers.getWishCount(req.session.user.id)
+    wishCount = await userproductHelpers?.getWishCount(req.session.user.id)
 
     let userId = req.session.user
     let total = await orderHelper.totalCheckOutAmount(req.session.user.id)
@@ -238,8 +238,9 @@ module.exports = {
     let DiscountAmount
 
     let couponpStatus = await couponHelper.findingCouponStatus(couponName)
+    
     let status = couponpStatus?.coupons[0]?.couponstatus
-    if (couponName && !status) {
+    if (couponName && status===false) {
       total = couponTotal
       DiscountAmount = "-" + discountAmount
     } else {
@@ -273,7 +274,7 @@ module.exports = {
 
       DiscountAmount = 0;
     }
-    let order = await orderHelper.placeOrder(req.body, total, DiscountAmount, grandtotal).then((response) => {
+    let order = await orderHelper.placeOrder(req.body, total, DiscountAmount, grandtotal,couponName).then((response) => {
       if (req.body['payment-method'] ==='Cod') {
 
         res.json({ codstatus: true })
@@ -299,7 +300,7 @@ module.exports = {
 
     userSession= req.session.user
     count = await cartHelper.getCartCount(req.session.user.id)
-    wishCount = await userproductHelpers.getWishCount(req.session.user.id)
+    wishCount = await userproductHelpers?.getWishCount(req.session.user.id)
     orderHelper.orderPage(req.session.user.id).then((response) => {
       const getDate = (date) => {
         let orderDate = new Date(date);

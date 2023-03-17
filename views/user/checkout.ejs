@@ -9,6 +9,7 @@
         </div>
 
         <br>
+        <% if (response.length!=0) { %>
         <form action="/check_out" method="POST" id="checkout-form">
           <% response.forEach(function(response) { %>
             <div>
@@ -83,6 +84,10 @@
               <button type="submit" class="btn btn-fill-out btn-block mt-30">Proceed to payment</button>
         </form>
 
+
+        <% } else { %>
+          <h2>No Address Added</h2>
+        <% } %>
 
         <br>
         <div style="width: 35rem; height: 3rem;background-color: whitesmoke; padding: 20px;">
@@ -165,7 +170,7 @@
 
   $('#checkout-form').submit((e) => {
     e.preventDefault();
-
+console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>");
     $.ajax({
       url: '/check_out',
       method: 'post',

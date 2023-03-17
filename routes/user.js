@@ -7,7 +7,7 @@ const { auth } = require("../middlewares/middleware");
 const auths = require('../middlewares/middleware')
 
 /* GET home page. */
-router.get("/", auths.userauth, auths.userBlock, controllers.getHome)
+router.get("/", controllers.getHome)
 
 router.get("/login", auths.userauth, auths.userBlock, controllers.getUserLogin)
 

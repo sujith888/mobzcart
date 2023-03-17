@@ -23,7 +23,7 @@ module.exports = {
                             subcategories: { subcategoryName: data.subcategoryname }
                         }
                     }).then((data) => {
-                        resolve({data,categorystatus:true})
+                        resolve({data,categorystatus:true,errMessage:"This Category Already Exist"})
                     })
 
             } else {

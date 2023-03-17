@@ -21,13 +21,21 @@
 
           <label for="cars">Category</label>
 
-          <select class="form-select" name="category" id="cars" onchange="subCategory(this.value)">
-            <% procategory.forEach(function(procategory) { %>
-              <option value="<%=procategory.categoryName%>">
-                <%=procategory.categoryName%>
-              </option>
-              <% } )%>
-          </select>
+          <select
+          class="form-select"
+          name="category"
+          id="cars"
+        >
+        <option><%=editproduct.category%></option>
+          <% procategory.forEach(function(procategory) { %>
+          <% if (procategory.CategoryName == editproduct.category) { %>
+        <% } else { %>
+          <option><%=procategory.CategoryName%></option>
+
+        <% } %>
+        
+          <% } )%>
+        </select>
           <label for="cars">Sub Category</label>
           <select class="form-select" name="subcategory" id="selectbox">
           </select>
@@ -199,8 +207,7 @@
     if (
       !validatePrice(),
       !validateQuantity(),
-      !validateName(),
-     !validateDescription()
+      !validateName()
     ) {
       Swal.fire({
         icon: 'error',

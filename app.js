@@ -6,9 +6,8 @@ const logger = require("morgan");
 const expressLayouts = require("express-ejs-layouts");
 const session= require('express-session')
 const connectDB = require('./models/mongoConnection')
-require('dotenv').config()
+require('dotenv').config();
 
-console.log(process.env)
 // DB connection
 
 const db = require("./models/connection");

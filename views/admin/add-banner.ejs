@@ -3,18 +3,18 @@
     <div class="row w-75 mt-5">
       <div class="col-md-12">
         <h2 class="text-center">Add Banner</h2>
-        <form action="/admin/add_banner" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <form action="/admin/add_banner" method="POST" enctype="multipart/form-data" id="myform">
           <label for="">Title</label>
-          <input type="text" name="title" required="" class="form-control" onkeyup="validateName()" />
+          <input type="text" name="title" id="title" required="" class="form-control" onkeyup="validateName()" />
           <span id="title-error" class="text-danger"></span>
           <label for="">Description</label>
-          <input type="text" name="description" required="" class="form-control" onkeyup="validateDescription()" />
+          <input type="text" name="description" id="description" required="" class="form-control" onkeyup="descriptionValidation()" />
           <span id="description-error" class="text-danger"></span>
           <label for="">Link</label>
-          <input type="text" name="link" required="" class="form-control" />
+          <input type="text" name="link" id="link" required="" class="form-control" onkeyup="validateLink"   />
           <span id="link-error" class="text-danger"></span>
           <label for="">Page</label>
-          <input type="text" name="page" required="" class="form-control" />
+          <input type="text" name="page"  id="page"required="" class="form-control"  onkeyup="validatePage()"/>
           <span id="page-error" class="text-danger"></span>
           <label for="">Image</label>
           <input type="file" name="image" required="" class="form-control" />
@@ -25,52 +25,85 @@
     </div>
   </div>
 </section>
-
 <script>
-function validateForm() {
-  const form = document.getElementById('myForm');
-  const nameInput = document.getElementById('title');
-  const nameError = document.getElementById('title-Error');
-  const descriptionInput = document.getElementById('description');
-  const descriptionError = document.getElementById('description-Error');
+  let regex = /^[^ ].*/;
+
+
+  let titleError = document.getElementById("title-error");
+  let descriptionError = document.getElementById("description-error");
+  let linkError = document.getElementById("link-error");
+
+  let myform = document.getElementById("myform");
 
   function validateName() {
-    if (!nameInput.value.match(/^[A-Za-z ]{3,}$/)) {
-      nameError.innerHTML = 'Please enter a valid name';
-      nameError.style.color = 'red';
-      nameInput.style.border = 'solid 2px red';
+    let name = document.getElementById("title").value;
+    let nameInput = document.getElementById("title");
+    if (name.length == 0) {
+      titleError.innerHTML = "Title is required";
+      titleError.style.color = "red";
+      nameInput.style.border = "solid 2px red";
+      return false;
+    }
+    if (!name.match(regex)) {
+      titleError.innerHTML = "Write valid Title";
+      titleError.style.color = "red";
+      nameInput.style.border = "solid 2px red";
+      return false;
+    }
+    titleError.innerHTML = "";
+    titleError.style.color = "green";
+    nameInput.style.border = "solid 2px green";
+    return true;
+  }
+
+  function descriptionValidation() {
+    let name = document.getElementById("description").value;
+    let nameInput = document.getElementById("description");
+    if (name.length == 0) {
+      descriptionError.innerHTML = "Description is required";
+      descriptionError.style.color = "red";
+      nameInput.style.border = "solid 2px red";
+      return false;
+    }
+    if (!name.match(regex)) {
+      descriptionError.innerHTML = "Write valid Description";
+      descriptionError.style.color = "red";
+      nameInput.style.border = "solid 2px red";
+      return false;
+    }
+    descriptionError.innerHTML = "";
+    descriptionError.style.color = "green";
+    nameInput.style.border = "solid 2px green";
+    return true;
+  }
+  
+  function validateLink() {
+    let link = document.getElementById("link").value;
+    let linkInput = document.getElementById("link");
+    if (link.length == 0) {
+      linkError.innerHTML = "Description is required";
+      linkError.style.color = "red";
+      linkInput.style.border = "solid 2px red";
+      return false;
+    }
+    if (!link.match(regex)) {
+      linkError.innerHTML = "Write valid Description";
+      linkError.style.color = "red";
+      linkInput.style.border = "solid 2px red";
+      return false;
+    }
+    linkError.innerHTML = "";
+    linkError.style.color = "green";
+    linkInput.style.border = "solid 2px green";
+    return true;
+  }
+
+  myform.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!validateName() || !descriptionValidation() || !validateLink()) {
       return false;
     } else {
-      nameError.innerHTML = '';
-      nameInput.style.border = 'solid 2px green';
-      return true;
+      myform.submit();
     }
-  }
-
-  function validateDescription() {
-    if (!descriptionInput.value.match(/^[A-Za-z ]{3,}$/)) {
-      descriptionError.innerHTML = 'Please enter a valid description';
-      descriptionError.style.color = 'red';
-      descriptionInput.style.border = 'solid 2px red';
-      return false;
-    } else {
-      descriptionError.innerHTML = '';
-      descriptionInput.style.border = 'solid 2px green';
-      return true;
-    }
-  }
-
-  if (!validateName() || !validateDescription()) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Enter details correctly!!',
-    });
-    return false;
-  } else {
-    form.submit();
-  }
-}
-
-
-
+  });
 </script>

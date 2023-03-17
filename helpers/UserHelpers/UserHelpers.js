@@ -17,7 +17,7 @@ module.exports = {
         email = userData.email;
         existingUser = await db.user.findOne({ email })
         if (existingUser) {
-          return resolve({status:false})
+          return resolve({status:true})
 
         }
         else {
@@ -35,7 +35,7 @@ module.exports = {
 
 
           await data.save(data).then((data) => {
-            resolve({ data, status: true })
+            resolve({ data, status: false })
           })
         }
       }

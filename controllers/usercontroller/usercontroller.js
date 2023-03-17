@@ -3,9 +3,8 @@ const otpLogin = require('../../allKeys/otpLogin')
 const client = require('twilio')(otpLogin.AccountSId, otpLogin.authtoken)
 const db = require("../../models/connection");
 const { log } = require('console');
-const userProduct = require('../../helpers/UserHelpers/userProduct');
 const { cart } = require('../../models/connection');
-const productHelpers = require('../../helpers/UserHelpers/productHelpers');
+const productHelpers = require('../../helpers/UserHelpers/userProductHelpers');
 const profileHelper = require('../../helpers/UserHelpers/profileHelper')
 
 const couponHelpers = require('../../helpers/adminHelpers/adminCouponHelpers')
@@ -13,9 +12,11 @@ const cartHelper = require('../../helpers/UserHelpers/cartHelper')
 const addressHelper = require('../../helpers/UserHelpers/addressHelper')
 const userCategoryHelper = require('../../helpers/UserHelpers/categoryHelper')
 const couponHelper = require('../../helpers/UserHelpers/couponHelper')
-const orderHelper = require('../../helpers//UserHelpers/orderHelper')
+const orderHelper = require('../../helpers//UserHelpers/orderHelper');
+const userProductControllers = require('./userProductControllers');
+
 let loggedinstatus;
-let Number, wishCount, count, userSession;
+let Number, wishCount, count, userSession,response,banner;
 
 module.exports = {
 
@@ -28,10 +29,15 @@ module.exports = {
 
     if (req.session.loggedIn) {
       userSession = req.session.user
-      let response = await productHelpers.bestSeller()
-let banner= await userhelpers.findBanner()
-      wishCount = await userProduct.getWishCount(req.session.user.id)
+       response = await productHelpers.bestSeller()
+ banner= await userhelpers.findBanner()
+      wishCount = await productHelpers.getWishCount(req.session.user.id)
       count = await cartHelper.getCartCount(req.session.user.id)
+      res.render('user/user', { userSession, count, wishCount, response,banner })
+
+    }else{
+      response = await productHelpers.bestSeller()
+      banner= await userhelpers.findBanner()
       res.render('user/user', { userSession, count, wishCount, response,banner })
 
     }
@@ -74,10 +80,11 @@ let banner= await userhelpers.findBanner()
 
   getSignUp: (req, res) => {
     emailStatus = true
-    if (req.session.userloggedIn) {
+    if (req.session.loggedIn) {
       res.redirect('/login')
     } else {
-      res.render("user/signup",{ emailStatus:true});
+      res.render("user/signup"
+      );
     }
   },
   //post sign up
@@ -85,11 +92,11 @@ let banner= await userhelpers.findBanner()
     userhelpers.doSignUp(req.body).then((response) => {
 
       let emailStatus = response.status
-      if (emailStatus == true) {
+      if (emailStatus == false) {
         res.redirect('/login')
       } else {
 
-        res.render('user/signup', { emailStatus:true })
+        res.render('user/signup', { emailStatus })
       }
 
     })

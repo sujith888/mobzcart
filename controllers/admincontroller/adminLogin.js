@@ -40,13 +40,16 @@ module.exports = {
     //   else{
     //     adminloginErr=true
     adminLoginHelper.postlogin(req.body).then((response) => {
+      console.log(response);
       req.session.adminloggedIn = true
       req.session.admin = response
       let status = response.loggedinstatus
 
       if (status == true) {
+        console.log('ifffffff');
         res.redirect('/admin')
       } else {
+        console.log('elseeeee');
         res.render('admin/login', { layout: 'adminLayout' })
       }
 
@@ -60,7 +63,6 @@ module.exports = {
 
   getDashboard: async (req, res) => {
 
-    if (req.session.adminloggedIn) {
       let admins = req.session.admin
 
       let totalProducts, days = []
@@ -74,7 +76,6 @@ module.exports = {
       let orderByCod = await adminLoginHelper.getCodCount()
 
       let codCount = orderByCod.length
-
       let orderByOnline = await adminLoginHelper.getOnlineCount()
       let totalUser = await adminLoginHelper.totalUserCount()
 
@@ -111,14 +112,14 @@ module.exports = {
         let total = 0;
 
         for (let i = 0; i < length; i++) {
-          total += response[i].orders.totalPrice;
+          total += response[i]?.orders?.totalPrice;
         }
 
         res.render("admin/admin-dashboard", { layout: "adminLayout", admins, length, total, totalProducts, ordersPerDay, paymentCount, totalUserCount });
 
       })
 
-    }
+    
 
   },
 

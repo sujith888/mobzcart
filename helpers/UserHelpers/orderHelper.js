@@ -3,15 +3,19 @@ const bcrypt = require('bcrypt');
 const { response } = require("../../app");
 const ObjectId = require('mongodb').ObjectId
 const Razorpay = require('razorpay');
-const razorpay = require('../../allKeys/razorpay')
 const crypto = require('crypto');
+require('dotenv').config();
+console.log("_________________________________________________________________________________________");
+console.log(process.env.secret_id);
 
+console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,,,,,,,,,");
 //razorpay instance
 var instance = new Razorpay({
-    key_id: razorpay.id,
-    key_secret: razorpay.secret_id
+    key_id: process.env.id,
+    key_secret: process.env.secret_id
 
 });
+console.log(instance);
 
 
 module.exports = {
@@ -131,9 +135,17 @@ module.exports = {
 
 
 
-    placeOrder: (orderData, total, DiscountAmount, grandTotal) => {
+    placeOrder: (orderData, total, DiscountAmount, grandTotal,couponName) => {
         return new Promise(async (resolve, reject) => {
             try {
+
+             let insertCoupon= await db.user.updateOne({"coupons.couponName":couponName},{
+                    $set:{
+                        "coupons.$.couponstatus":true
+                    }
+                 })
+                 console.log(insertCoupon);
+
                 let productdetails = await db.cart.aggregate([
                     {
                         $match: {
@@ -313,6 +325,7 @@ module.exports = {
                     $sort: { 'orders.createdAt': -1 }
                 }
                 ]).then((response) => {
+                    console.log(response);
                     resolve(response)
                 })
             } catch (err) {
@@ -333,7 +346,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             try {
                 const crypto = require('crypto')
-                let hmac = crypto.createHmac('sha256', razorpay.secret_id)
+                let hmac = crypto.createHmac('sha256', process.env.secret_id)
                 hmac.update(details['payment[razorpay_order_id]'] + "|" + details['payment[razorpay_payment_id]'])
                 hmac = hmac.digest('hex')
                 if (hmac == details['payment[razorpay_signature]']) {
@@ -469,6 +482,8 @@ module.exports = {
 
     returnOrder: (Data) => {
         let orderId=Data.orderNumber
+        console.log(Data.orderNumber);
+        console.log(orderId);
         return new Promise(async (resolve, reject) => {
             try {
                 let returnOrderDetails = {
@@ -478,7 +493,7 @@ module.exports = {
                     returnDate: Data.returnDate,
                     returnStatus: true,
                 }
-                let Orders = await db.order.findOne({ "orders._id": Data.orderNumber}, { "orders.$": 1 })
+                let Orders = await db.order.findOne({ "orders._id":Data.orderNumber}, { "orders.$": 1 })
 
                 if (Orders.orders[0].returnOrder.length===0) {
                     await db.order.updateOne(

@@ -3,20 +3,17 @@
     <div class="row w-75 mt-5">
       <div class="col-md-12">
         <h2 class="text-center">Add Category</h2>
-        <form
-          action="/admin/add_category"
-          method="POST"
-         
-        >
+        <form action="/admin/add_category" method="POST" id="myForm">
           <label for="">Category Name</label>
-          <input type="text" name="categoryname" required="" class="form-control" />
-          <% if(locals.categoryStatus) {%>
-       <h6 class="message   " style="color: red;"> This Category Already Exist </h6>
-          <%} else{%>
-            
-           <%}%>
+          <input type="text" name="categoryname" required="" id="category" class="form-control"
+            onkeyup="categoryValidate()" />
+          <span id="category-error" class="validation-label"></span>
+          <p class="message   " style="color: red;" id="categoryErr"> </p>
+
           <label for="">SubCategory Name</label>
-          <input type="text" name="subcategoryname" required="" class="form-control" />
+          <input type="text" name="subcategoryname" id="subCategory" required="" class="form-control"
+            onkeyup="subCategoryValidate()" />
+          <span id="sub-category-error" class="validation label"></span>
           <button type="submit" class="btn btn-success mt-4">Submit</button>
         </form>
       </div>
@@ -34,26 +31,34 @@
               <tr>
                 <th class="align-middle" scope="col">NO:</th>
                 <th class="align-middle" scope="col">Category Name</th>
-                <th class="align-middle" scope="col">sub Category Name</th>
+                <th class="align-middle" scope="col">Sub Category Name</th>
 
                 <th class="align-middle" scope="col">Option</th>
               </tr>
             </thead>
             <tbody>
               <% viewCategory.forEach(function(viewCategory,index) { %>
-              <tr>
-                <td><%= index+1 %></td>
-                <td><%= viewCategory.categoryName %></td>
-    
+                <tr>
+                  <td>
+                    <%= index+1 %>
+                  </td>
+                  <td>
+                    <%= viewCategory.categoryName %>
+                  </td>
 
-                <td><%= viewCategory.subcategories[0].subcategoryName %></td>
-            
-                <td>
-                  <a href="/admin/edit_category?edited=<%= viewCategory._id %>" class="btn btn-xs btn-danger"> Edit</a>
-                  <a href="/admin/delete_category?deletedid=<%=viewCategory._id %>" class="btn btn-xs btn-danger"  onclick="return confirm('are you want to Delete <%=viewCategory.categoryName%>?')"> Delete</a>
-                </td>
-              </tr>
-              <% }) %>
+
+                  <td>
+                    <%= viewCategory.subcategories[0].subcategoryName %>
+                  </td>
+
+                  <td>
+                    <a href="/admin/edit_category?edited=<%= viewCategory._id %>" class="btn btn-xs btn-danger">
+                      Edit</a>
+                    <a href="/admin/delete_category?deletedid=<%=viewCategory._id %>" class="btn btn-xs btn-danger"
+                      onclick="return confirm('are you want to Delete <%=viewCategory.categoryName%>?')"> Delete</a>
+                  </td>
+                </tr>
+                <% }) %>
             </tbody>
           </table>
         </div>
@@ -66,7 +71,93 @@
 
 
 <script>
-  setTimeout(function () {
-    document.querySelector('.message').style.display = 'none';
-  }, 3000);
+
+  $(document).ready(function () {
+    $('#myForm').submit(function (event) {
+      event.preventDefault();
+      var formData = $(this).serialize()
+      console.log(formData);
+      $.ajax({
+        url: "/admin/add_category",
+        method: 'post',
+        data: formData,
+        success: function (response) {
+          console.log(response);
+         
+          
+          if (response.categorystatus === true) {
+          document.getElementById('categoryErr').innerHTML = response.errMessage;
+
+          setTimeout(function() {
+            location.reload();
+          }, 6000);
+        } else {
+          location.reload();
+        }
+        }
+      });
+    });
+  });
+
+
+
+
+  let regex = /^[^ ].*/
+  let categoryError = document.getElementById('category-error')
+  let subCategoryError = document.getElementById('sub-category-error')
+  let myform = document.getElementById('myform')
+
+
+  function categoryValidate() {
+    let name = document.getElementById("category").value;
+    let nameInput = document.getElementById("category");
+    if (name.length == 0) {
+      categoryError.innerHTML = "Category is required";
+      categoryError.style.color = "red";
+      nameInput.style.border = "solid 2px red";
+      return false;
+    } if (!name.match(regex)) {
+      categoryError.innerHTML = "Write valid name";
+      categoryError.style.color = "red";
+      nameInput.style.border = "solid 2px red";
+      return false;
+    }
+    categoryError.innerHTML = "";
+    categoryError.style.color = "green";
+    nameInput.style.border = "solid 2px green";
+    return true;
+
+  }
+
+  function subCategoryValidate() {
+    var name = document.getElementById("subCategory").value;
+    var nameInput = document.getElementById("subCategory");
+    if (name.length == 0) {
+      subCategoryError.innerHTML = "Sub-Category is required";
+      subCategoryError.style.color = "red";
+      nameInput.style.border = "solid 2px red";
+      return false;
+    } if (!name.match(regex)) {
+      subCategoryError.innerHTML = "Write valid name";
+      categoryError.style.color = "red";
+      nameInput.style.border = "solid 2px red";
+      return false;
+    }
+    subCategoryError.innerHTML = "";
+    subCategoryError.style.color = "green";
+    nameInput.style.border = "solid 2px green";
+    return true;
+
+  }
+
+  myform.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!categoryValidate() || !subCategoryValidate()) {
+      return false;
+    }
+    else {
+      myform.submit();
+    }
+  })
+
 </script>

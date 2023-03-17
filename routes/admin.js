@@ -20,7 +20,7 @@ router.get("/signin",adminController.getsignin);
 
 router.post("/signin",adminController.postsignin);
 
-router.get("/",check.auth,auths.auth,adminController.getDashboard)
+router.get("/",check.auth,adminController.getDashboard)
 
 router.get("/login",check.auth,adminController.getAdminLogin);
 

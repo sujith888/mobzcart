@@ -27,8 +27,8 @@ getCategory:(req, res)=>{
           var viewCategory=response
           let sub=response[0]?.subcategories
       adminCategoryHelper.addCategory(req?.body).then((data)=>{
-     let categoryStatus=data.categorystatus
-     res.render("admin/add-category", { layout: "adminLayout" ,categoryStatus,viewCategory,sub,admins});
+            res.json(data)
+    //  res.render("admin/add-category", { layout: "adminLayout" ,categoryStatus,viewCategory,sub,admins});
 
 
     })
