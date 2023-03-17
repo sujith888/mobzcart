@@ -250,7 +250,6 @@ module.exports = {
       admins = req.session.admin
       let products = order?.orders[0]?.productDetails
       let total = order?.orders
-        console.log(total);
       res.render('admin/admin-userViewOrderDetails', { layout: 'adminLayout', order, products, total, getDate, admins ,requestForReturn})
     })
 

@@ -58,7 +58,6 @@ module.exports = {
   },
   // post user login
   postUserLogin: (req, res) => {
-    console.log("post");
     userhelpers.doLogin(req.body).then((response) => {
       req.session.loggedIn = true
       req.session.user = response

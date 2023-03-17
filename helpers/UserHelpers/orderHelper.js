@@ -5,17 +5,13 @@ const ObjectId = require('mongodb').ObjectId
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 require('dotenv').config();
-console.log("_________________________________________________________________________________________");
-console.log(process.env.secret_id);
 
-console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,,,,,,,,,");
 //razorpay instance
 var instance = new Razorpay({
     key_id: process.env.id,
     key_secret: process.env.secret_id
 
 });
-console.log(instance);
 
 
 module.exports = {
@@ -144,7 +140,6 @@ module.exports = {
                         "coupons.$.couponstatus":true
                     }
                  })
-                 console.log(insertCoupon);
 
                 let productdetails = await db.cart.aggregate([
                     {
@@ -325,7 +320,6 @@ module.exports = {
                     $sort: { 'orders.createdAt': -1 }
                 }
                 ]).then((response) => {
-                    console.log(response);
                     resolve(response)
                 })
             } catch (err) {
@@ -481,9 +475,6 @@ module.exports = {
     // RETURN ORDER
 
     returnOrder: (Data) => {
-        let orderId=Data.orderNumber
-        console.log(Data.orderNumber);
-        console.log(orderId);
         return new Promise(async (resolve, reject) => {
             try {
                 let returnOrderDetails = {

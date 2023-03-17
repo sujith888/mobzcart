@@ -14,9 +14,7 @@ Permission = {
     auth: function checkAccess(req, res, next) {
       if (req.session.adminloggedIn) {
         let role = req.session.admin.role;
-        console.log(req.session.admin.role + "hlo");
         let currentPage = req.path;
-        console.log(currentPage);
 
         if (Permission[role].includes(currentPage)) {
           next();

@@ -40,16 +40,13 @@ module.exports = {
     //   else{
     //     adminloginErr=true
     adminLoginHelper.postlogin(req.body).then((response) => {
-      console.log(response);
       req.session.adminloggedIn = true
       req.session.admin = response
       let status = response.loggedinstatus
 
       if (status == true) {
-        console.log('ifffffff');
         res.redirect('/admin')
       } else {
-        console.log('elseeeee');
         res.render('admin/login', { layout: 'adminLayout' })
       }
 

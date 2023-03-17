@@ -8,22 +8,18 @@ const ObjectId = require('mongodb').ObjectId
 module.exports = {
 
     couponValidator: async (code, userId, total) => {
-  console.log(code);
         return new Promise(async (resolve, reject) => {
             try {
                 let discountAmount;
                 let couponTotal
                 let coupon = await db.coupon.findOne({ couponName: code })
                 if (coupon) {
-                    console.log(coupon);
-                    console.log('hlo');
 
                     if (total >= coupon?.minPurchase) {                          //checking max offer value
                         discountAmount = (total * coupon.discountPercentage) / 100
                         if (discountAmount > coupon?.maxDiscountValue) {
                             discountAmount = coupon?.maxDiscountValue
                         }
- console.log(discountAmount);
 
                     }
                     couponTotal = total - discountAmount
@@ -81,8 +77,6 @@ findingCouponStatus: async (couponName)=>{
     try{
 
     let couponStatus=await db.user.findOne({'coupons.couponName':couponName},{'coupons.$':1})
-    console.log(couponStatus);
-    console.log("????????????????????????????????????????????????????????????");
       return couponStatus
     }catch(err){
         return(err)

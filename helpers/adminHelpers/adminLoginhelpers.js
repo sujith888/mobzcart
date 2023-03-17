@@ -23,7 +23,6 @@ module.exports = {
     postsignin: (data) => {
         return new Promise(async (resolve, reject) => {
 
- console.log(data);
             let hashedPassword = await bcrypt.hash(data.password, 10)
 
             const admindata = db.admin({
@@ -34,7 +33,6 @@ module.exports = {
 
             })
             await admindata.save().then((response) => {
-              console.log(response);
             resolve(response)
             })
         })
@@ -47,7 +45,6 @@ module.exports = {
             try {
 
                 let admin = await db.admin.findOne({ email: data.email })
-                console.log(admin);
                 if (admin) {
                     if (admin.blocked == false) {
 
@@ -60,7 +57,6 @@ module.exports = {
                             resolve({ loggedinstatus: true, Name, id, role })
 
                         } else {
-                          console.log('else');
                             resolve({ loggedinstatus: false })
                         }
                     })
@@ -70,7 +66,6 @@ module.exports = {
                     resolve({ loggedinstatus: false,blockedstatus:true })
                 }
             }else{
-              console.log('no admin');
              resolve({loggedinstatus: false})
             }
          } catch (err) {

@@ -22,9 +22,7 @@ let users= require("../models/connection")
       userBlock:(async(req,res,next)=>{
         let userId =req?.session?.user?.id
     let   user=  await users?.user.findOne({_id:userId})
-    console.log(user);
         if(!user?.blocked){
-    console.log('hi');
           next()
           
         }else{
