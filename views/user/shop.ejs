@@ -66,11 +66,10 @@
 
                                             <a href="/image">
                                                 <a href="/image/<%=response._id %> ">
-                                                    <img class="default-img" src="/uploads/<%= response.Image[0] %>"
+                                                    <img class="default-img" src="/uploads/<%=response.Image[0]%>"
                                                         alt="">
                                                 </a>
                                             </a>
-
 
 
                                         </div>
@@ -98,35 +97,39 @@
                                         <h2>
                                             <%=response.Productname%>
                                         </h2>
-                                                    <div class="rating-result" title="90%">
-                                                        <span>
-                                                            <span>95%</span>
-                                                           
-                                                        </span>
-                                                        
-                                                    </div>
-                                                    <div >
-                                                        <span >
-                                                            <span> <% if(response.Quantity>0) {%>
-                                                            </span>    <%} else { %>
-                                                                  Availability:<span class="in-stock text-danger ml-5,badge rounded-pill alert-warning"
-                                                                   style="font-size: 10px; margin-left: 6px;"> OUT OF STOCK</span>
-                                                                  <%} %></span>
-                                                           
-                                                        </span>
-                                                        
-                                                    </div>
-                                                    <div class="product-price">
-                                                        <span>
-                                                            <%=response.Price%>
-                                                        </span>
+                                        <div class="rating-result" title="90%">
+                                            <span>
+                                                <span>95%</span>
 
-                                                    </div>
+                                            </span>
 
-                                                    <div class="product-action-1 show">
+                                        </div>
+                                        <div>
+                                            <span>
+                                                <span>
+                                                    <% if(response.Quantity>0) {%>
+                                                </span>
+                                                <%} else { %>
+                                                    Availability:<span
+                                                        class="in-stock text-danger ml-5,badge rounded-pill alert-warning"
+                                                        style="font-size: 10px; margin-left: 6px;"> OUT OF STOCK</span>
+                                                    <%} %>
+                                            </span>
 
-                                                        <button type="button" aria-label="Add To Cart"
-                                                            class="action-btn hover-up" onclick="addtocart('<%-response._id%>');Swal.fire({
+                                            </span>
+
+                                        </div>
+                                        <div class="product-price">
+                                            <span>
+                                                <%=response.Price%>
+                                            </span>
+
+                                        </div>
+
+                                        <div class="product-action-1 show">
+
+                                            <button type="button" aria-label="Add To Cart" class="action-btn hover-up"
+                                                onclick="addtocart('<%-response._id%>');Swal.fire({
                                         position: 'center',
                                         icon: 'success',
                                         title: 'Product is successfully added to cart',
@@ -135,9 +138,9 @@
                                       })"> <i class="fi-rs-shopping-bag-add"></i> </button>
 
 
-                                                        </a>
-                                                    </div>
-                                                    </a>
+                                            </a>
+                                        </div>
+                                        </a>
                                     </div>
                                 </div>
 

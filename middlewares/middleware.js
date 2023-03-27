@@ -35,7 +35,7 @@ let users= require("../models/connection")
         if(req.session.loggedIn){
           next()
         }else{
-          res.redirect('/')
+          res.render('user/user')
         }
        
       }),

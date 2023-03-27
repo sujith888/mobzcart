@@ -109,7 +109,7 @@ if (name.length == 0) {
       nameInput.style.border = 'solid 2px red';
       return false;
     }
-    if (!name.match(/^[A-Za-z]{3,}$/)) {
+    if (!name.match(/^[A-Z a-z]{5,}$/)) {
       nameError.innerHTML = 'Write valid name';
       nameError.style.color = 'red';
       nameInput.style.border = 'solid 2px red';
@@ -133,7 +133,7 @@ if (name.length == 0) {
       descriptionInput.style.border = 'solid 2px red';
       return false;
     }
-    if (!description.match(/^[A-Za-z]{3,}$/)) {
+    if (!description.match(/^[A-Z a-z]{5,}$/)) {
       descriptionError.innerHTML = 'Write valid discription';
       descriptionError.style.color = 'red';
       nameInput.style.border = 'solid 2px red';

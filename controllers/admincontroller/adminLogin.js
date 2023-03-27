@@ -124,6 +124,7 @@ module.exports = {
 
   getAdminLogOut: (req, res) => {
     if (req.session.adminloggedIn) {
+      req.session.user=null
       req.session.adminloggedIn = false
       res.redirect('/admin/login')
     }

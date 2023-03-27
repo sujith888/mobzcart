@@ -3,7 +3,7 @@
     <div class="row w-75 mt-5">
       <div class="col-md-12">
         <h2 class="text-center">Edit Product</h2>
-        <form   onsubmit="return validateImage()" action="/admin/edit_product?edit=<%=editproduct._id %>" name="myform" id="form"
+        <form   action="/admin/edit_product?edit=<%=editproduct._id %>" name="myform" id="form"
           method="POST" enctype="multipart/form-data">
           <label for="">Prodcut Name</label>
           <input type="text" name="name" class="form-control"  required="" value="<%=editproduct.Productname%>"
@@ -97,34 +97,6 @@
   }
 
 
-  const img = document.forms["myform"]["file"];
-  const validExt = ["jpeg", "png", "jpg", "webp"];
-  function validateImage() {
-    if (img.value !== "") {
-      const dot_pos = img.value.lastIndexOf(".") + 1;
-      const img_ext = img.value.substring(dot_pos);
-      const result = validExt.includes(img_ext);
-      if (result == false) {
-        swal.fire("OOPs!", "Selected file is not an image!", "error");
-        return false;
-      } else {
-        if (Number(img.files[0].size / (1024 * 1024)) >= 3) {
-          swal.fire(
-            "OOPs!",
-            "Size must be smaller than 3 MB . Current size is :" +
-              Number(img.files[0].size / (1024 * 1024)),
-            "error"
-          );
-          // alert('Size must be smaller than 3 MB . Current size is :' + Number(img.files[0].size/(1024*1024)))
-        }
-      }
-    } else {
-      swal.fire("error", "No image is selected...", "error");
-      // alert('No image is selected...');
-      return false;
-    }
-    return true;
-  }
 
   const nameError = document.getElementById('name-error');
   const descriptionError = document.getElementById('description-error');
@@ -143,7 +115,7 @@
       nameInput.style.border = 'solid 2px red';
       return false;
     }
-    if (!name.match(/^[A-Za-z]{3,}$/)) {
+    if (!name.match(/^[A-Z a-z 0-9]{3,}$/)) {
       nameError.innerHTML = 'Write valid name';
       nameError.style.color = 'red';
       nameInput.style.border = 'solid 2px red';

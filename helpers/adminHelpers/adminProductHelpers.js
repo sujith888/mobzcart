@@ -26,10 +26,6 @@ module.exports = {
 
   postAddProduct: (userdata, filename) => {
     return new Promise((resolve, reject) => {
-
-
-
-
       ImageUpload = new db.product({
         Productname: userdata.name,
         ProductDescription: userdata.description,
@@ -38,7 +34,6 @@ module.exports = {
         SubCategory: userdata.subcategory,
         category: userdata.category,
         Price: userdata.price
-
 
 
       })

@@ -15,8 +15,7 @@ const couponHelper = require('../../helpers/UserHelpers/couponHelper')
 const orderHelper = require('../../helpers//UserHelpers/orderHelper');
 const userProductControllers = require('./userProductControllers');
 
-let loggedinstatus;
-let Number, wishCount, count, userSession,response,banner;
+let Number, wishCount, count, userSession, response, banner;
 
 module.exports = {
 
@@ -26,19 +25,19 @@ module.exports = {
 
   getHome: async (req, res) => {
 
+    userSession = req.session.user
 
     if (req.session.loggedIn) {
-      userSession = req.session.user
-       response = await productHelpers.bestSeller()
- banner= await userhelpers.findBanner()
+      response = await productHelpers.bestSeller()
+      banner = await userhelpers.findBanner()
       wishCount = await productHelpers.getWishCount(req.session.user.id)
       count = await cartHelper.getCartCount(req.session.user.id)
-      res.render('user/user', { userSession, count, wishCount, response,banner })
+      res.render('user/user', { userSession, count, wishCount, response, banner })
 
-    }else{
+    } else {
       response = await productHelpers.bestSeller()
-      banner= await userhelpers.findBanner()
-      res.render('user/user', { userSession, count, wishCount, response,banner })
+      banner = await userhelpers.findBanner()
+      res.render('user/user', { userSession, count, wishCount, response, banner })
 
     }
 
@@ -105,8 +104,10 @@ module.exports = {
 
   getLogout: (req, res) => {
 
-    req.session.loggedIn = null
-    res.render('user/login')
+    req.session.user = null;
+    req.session.loggedIn = false;
+
+    res.redirect("/login");
 
   },
 
@@ -171,10 +172,10 @@ module.exports = {
   // <======================================= user profile mangement ========================>
 
   getProfile: async (req, res) => {
-    count=  await cartHelper.getCartCount(req.session.user.id)
+    count = await cartHelper.getCartCount(req.session.user.id)
     wishCount = await productHelpers.getWishCount(req.session.user.id)
     let data = await profileHelper.findUser(req.session.user.id);
-    res.render("user/profile", { userSession, data,wishCount,count });
+    res.render("user/profile", { userSession, data, wishCount, count });
   },
 
 
@@ -187,11 +188,11 @@ module.exports = {
 
 
 
-  resetPassword:async (req, res) => {
-    count= await cartHelper.getCartCount(req.session.user.id)
+  resetPassword: async (req, res) => {
+    count = await cartHelper.getCartCount(req.session.user.id)
     wishCount = await productHelpers.getWishCount(req.session.user.id)
     let user = req.session.user.id;
-    res.render("user/reset-password", { userSession, user,count,wishCount });
+    res.render("user/reset-password", { userSession, user, count, wishCount });
   },
 
 
